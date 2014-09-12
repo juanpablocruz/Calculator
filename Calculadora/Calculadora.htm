@@ -1,0 +1,93 @@
+﻿<HTML>
+<HEAD>
+    <style>
+        .number_button, .button {
+            width: 50px;
+            height: 40px;
+            border-radius: 15px;
+            border: none;
+            color: white;
+            background: #222222;
+            font-size:22px;
+        }
+        #igual {
+            height: 40px;
+            width: 50px;
+            color: white;
+            border: none;
+            background: #222222;
+            font-size: 22px;
+        }
+        #textArea {
+            border: 0;
+            width: 90%;
+            height: 50px;
+            background: #829745;
+            font-size: 32px;
+            color: white;
+            padding-right: 10px;
+            padding-top: 5px;
+        }
+        body {
+            background-color:#6f6f6f;
+        }
+    </style>
+</HEAD>
+<body id=CCalculadoraDlg style="font-family:MS Shell Dlg;font-size:8">
+
+    <table width=100% height=300 id="table">
+        <tr width=100% height=50px>
+            <td align=CENTER valign=TOP colspan="2">
+                <input type="text" id="textArea" value="0" style="text-align:right;" />
+            </td>
+        </tr>
+        <tr width=100%>
+            <td valign=BOTTOM>
+                <table height=200>
+                    <tr>
+                        <td><button id="erase" class="button">C</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="raiz" class="button">√</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="porcen" class="button">%</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="mod" class="button">mod</button></td>
+                    </tr>
+                </table>
+            </td>   
+    <td align=RIGHT valign=BOTTOM width="230">
+        <table width=230 height=200 id="numbers">
+            <tr>
+                <td><button class="number_button" value="7">7</button></td>
+                <td><button class="number_button" value="8">8</button></td>
+                <td><button class="number_button" value="9">9</button></td>
+                <td><button id="multi" class="button">*</button></td>
+            </tr>
+            <tr>
+                <td><button class="number_button" value="4">4</button></td>
+                <td><button class="number_button" value="5">5</button></td>
+                <td><button class="number_button" value="6">6</button></td>
+                <td><button id="resta" class="button">-</button></td>
+            </tr>
+            <tr>
+                <td><button class="number_button" value="1">1</button></td>
+                <td><button class="number_button" value="2">2</button></td>
+                <td><button class="number_button" value="3">3</button></td>
+                <td><button id="div" class="button">/</button></td>
+            </tr>
+            <tr>
+                <td><button class="number_button" value="0">0</button></td>
+                <td><button id="point" class="number_button">.</button></td>
+                <td><button id="suma" class="button">+</button></td>
+                <td colspan="1"><button id="igual" class="button">=</button></td>
+            </tr>
+        </table>
+    </td>
+    </TR>
+    </TABLE>
+
+</body>
+</HTML>
