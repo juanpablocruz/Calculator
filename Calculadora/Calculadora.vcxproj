@@ -120,6 +120,9 @@
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="res\Calculadora.rc2" />
+    <None Include="res\html1.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Calculadora.rc" />
