@@ -370,24 +370,27 @@ HRESULT CCalculadoraDlg::mod(IHTMLElement* pElement)
 
 HRESULT CCalculadoraDlg::erase(IHTMLElement* pElement)
 {
-	this->operador = OPERADOR_PORCEN;
 	IHTMLElement* textArea = NULL;
 	if (GetElement(_T("textArea"), &textArea) == S_OK &&
 		textArea != NULL)
 	{
-		_variant_t val;
-		textArea->getAttribute(_bstr_t("value"), 0, &val);
+		if (this->res != OPERADOR_IGUAL) {
+			_variant_t val;
+			textArea->getAttribute(_bstr_t("value"), 0, &val);
 
-		std::string str,st;
+			std::string str, st;
 
-		// convert directly into str-allocated buffer.
-		BstrToStdString(val.bstrVal, str);
-		if (str.size() > 2)
-			st = str.substr(0, str.size() - 2);
-		else
-			st = "0";
-		textArea->put_innerText(Convert(st));
-		this->res = OPERADOR_IGUAL;
+			// convert directly into str-allocated buffer.
+			BstrToStdString(val.bstrVal, str);
+			if (str.size() > 2)
+				st = str.substr(0, str.size() - 2);
+			else
+				st = "0";
+			textArea->put_innerText(Convert(st));
+		}
+		else {
+			textArea->put_innerText(_bstr_t("0"));
+		}
 	}
 
 	return S_OK;
