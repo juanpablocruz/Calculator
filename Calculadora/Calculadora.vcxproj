@@ -101,6 +101,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="calc.h" />
     <ClInclude Include="Calculadora.h" />
     <ClInclude Include="CalculadoraDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="calc.cpp" />
     <ClCompile Include="Calculadora.cpp" />
     <ClCompile Include="CalculadoraDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

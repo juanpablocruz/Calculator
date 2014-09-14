@@ -15,7 +15,7 @@ public:
 // Dialog Data
 	enum { IDD = IDD_CALCULADORA_DIALOG, IDH = IDR_HTML_CALCULADORA_DIALOG };
 	FLOAT leftValue, rightValue;
-	int operador,res=0;
+	int operador = OPERADOR_IGUAL, res = 0;
 	enum {DEG,RAD,GRAD};
 	int system_grad = DEG;
 	enum { OPERADOR_SUMA, OPERADOR_RESTA, OPERADOR_MULTI, OPERADOR_DIV, OPERADOR_IGUAL, 
@@ -56,6 +56,8 @@ public:
 	HRESULT neper(IHTMLElement *pElement);
 	HRESULT log_func(IHTMLElement *pElement);
 	HRESULT fact_func(IHTMLElement *pElement);
+	HRESULT lPar(IHTMLElement *pElement);
+	HRESULT rPar(IHTMLElement *pElement);
 
 // Implementation
 protected:

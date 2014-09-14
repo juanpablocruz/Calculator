@@ -8,13 +8,14 @@
 #include "afxdialogex.h"
 #include <math.h>
 #include <vector>
-#include <iostream>
+#include "calc.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 #define PI 3.14159265359
+
 
 // CAboutDlg dialog used for App About
 
@@ -51,10 +52,10 @@ END_MESSAGE_MAP()
 
 BEGIN_DHTML_EVENT_MAP(CCalculadoraDlg)
 	DHTML_EVENT_CLASS(DISPID_HTMLELEMENTEVENTS_ONCLICK, _T("number_button"),typeNum)
-	DHTML_EVENT_ONCLICK(_T("suma"), suma)
-	DHTML_EVENT_ONCLICK(_T("resta"), resta)
-	DHTML_EVENT_ONCLICK(_T("multi"), multiplicacion)
-	DHTML_EVENT_ONCLICK(_T("div"), division)
+	DHTML_EVENT_ONCLICK(_T("suma"), typeNum)
+	DHTML_EVENT_ONCLICK(_T("resta"), typeNum)
+	DHTML_EVENT_ONCLICK(_T("multi"), typeNum)
+	DHTML_EVENT_ONCLICK(_T("div"), typeNum)
 	DHTML_EVENT_ONCLICK(_T("igual"), igual)
 	DHTML_EVENT_ONCLICK(_T("raiz"), raiz)
 	DHTML_EVENT_ONCLICK(_T("porcen"), porcen)
@@ -76,6 +77,8 @@ BEGIN_DHTML_EVENT_MAP(CCalculadoraDlg)
 	DHTML_EVENT_ONCLICK(_T("neper"), neper)
 	DHTML_EVENT_ONCLICK(_T("log"), log_func)
 	DHTML_EVENT_ONCLICK(_T("factorial"), fact_func)
+	DHTML_EVENT_ONCLICK(_T("lPar"), typeNum)
+	DHTML_EVENT_ONCLICK(_T("rPar"), typeNum)
 	DHTML_EVENT_ONCLICK(_T("ButtonOK"), OnButtonOK)
 	DHTML_EVENT_ONCLICK(_T("ButtonCancel"), OnButtonCancel)
 END_DHTML_EVENT_MAP()
@@ -405,6 +408,10 @@ HRESULT CCalculadoraDlg::igual(IHTMLElement* pElement)
 		_variant_t val;
 		textArea->getAttribute(_bstr_t("value"), 0, &val);
 		VarR4FromStr(val.bstrVal, 0, 0, &this->rightValue);
+		std::string str, st;
+
+		// convert directly into str-allocated buffer.
+		BstrToStdString(val.bstrVal, str);
 
 		switch (this->operador) {
 		case OPERADOR_SUMA:
@@ -424,19 +431,25 @@ HRESULT CCalculadoraDlg::igual(IHTMLElement* pElement)
 			break;
 		case OPERADOR_PORCEN:
 			textArea->put_innerText(_bstr_t((this->leftValue *100 )/ this->rightValue));
+			this->res = OPERADOR_IGUAL;
 			break;
 		case OPERADOR_MOD:
 			textArea->put_innerText(_bstr_t(((INT)this->leftValue) % (INT)this->rightValue));
+			this->res = OPERADOR_IGUAL;
 			break;
 		case OPERADOR_POW:
 			textArea->put_innerText(_bstr_t(pow(this->leftValue, this->rightValue)));
+			this->res = OPERADOR_IGUAL;
 			break;
 		case OPERADOR_2EXP:
 			textArea->put_innerText(_bstr_t((this->rightValue)*(this->rightValue)));
+			this->res = OPERADOR_IGUAL;
+			break;
+		default:
+			textArea->put_innerText(_bstr_t(calculate(str.c_str())));
 			break;
 		}
 	}
-	this->res = OPERADOR_IGUAL;
 	
 	return S_OK;
 }
@@ -513,8 +526,15 @@ HRESULT CCalculadoraDlg::show_pi(IHTMLElement* pElement)
 	if (GetElement(_T("textArea"), &textArea) == S_OK &&
 		textArea != NULL)
 	{
-		textArea->put_innerText(_bstr_t(PI));
-		this->res = OPERADOR_IGUAL;
+		_variant_t val;
+		textArea->getAttribute(_bstr_t("value"), 0, &val);
+		FLOAT t;
+		VarR4FromStr(val.bstrVal, 0, 0, &t);
+
+		if (t == (FLOAT)0)
+			textArea->put_innerText(_bstr_t(PI));
+		else
+			textArea->put_innerText(val.bstrVal + _bstr_t(PI));
 	}
 
 	return S_OK;
@@ -819,6 +839,44 @@ HRESULT CCalculadoraDlg::fact_func(IHTMLElement *pElement) {
 
 		textArea->put_innerText(_bstr_t(factorial));
 		this->res = OPERADOR_IGUAL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CCalculadoraDlg::lPar(IHTMLElement *pElement) {
+	IHTMLElement* textArea = NULL;
+	if (GetElement(_T("textArea"), &textArea) == S_OK &&
+		textArea != NULL)
+	{
+			_variant_t val;
+			textArea->getAttribute(_bstr_t("value"), 0, &val);
+			FLOAT t;
+			VarR4FromStr(val.bstrVal, 0, 0, &t);
+
+			if (t == (FLOAT)0)
+				textArea->put_innerText(_bstr_t("("));
+			else
+				textArea->put_innerText(val.bstrVal + _bstr_t("("));
+	}
+
+	return S_OK;
+}
+
+HRESULT CCalculadoraDlg::rPar(IHTMLElement *pElement) {
+	IHTMLElement* textArea = NULL;
+	if (GetElement(_T("textArea"), &textArea) == S_OK &&
+		textArea != NULL)
+	{
+		_variant_t val;
+		textArea->getAttribute(_bstr_t("value"), 0, &val);
+		FLOAT t;
+		VarR4FromStr(val.bstrVal, 0, 0, &t);
+
+		if (t == (FLOAT)0)
+			textArea->put_innerText( _bstr_t(")"));
+		else
+			textArea->put_innerText(val.bstrVal + _bstr_t(")"));
 	}
 
 	return S_OK;
